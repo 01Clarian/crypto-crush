@@ -1,7 +1,7 @@
 {
   "name": "candy-crush-clone",
   "version": "0.1.0",
-  "homepage": "https://01Clarian.github.io/crypto-crush/",
+  "homepage": "https://01clarian.github.io/crypto-crush/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
@@ -26,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +52,7 @@
     "@types/lodash": "^4.14.185",
     "@types/three": "^0.160.0",
     "autoprefixer": "^10.4.12",
+    "gh-pages": "^6.1.1",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8"
   }
