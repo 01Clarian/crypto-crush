@@ -8,11 +8,15 @@ function Board() {
   );
   return (
     <div
-      className="flex flex-wrap rounded-lg"
-      style={{
-        width: `${6.25 * boardSize}rem`,
-      }}
-    >
+    className="flex flex-wrap rounded-lg justify-center" // Add justify-center class
+    style={{
+      width: "100%", // Set the width to 100% to fill the container
+      height: "100%", // Set the width to 100% to fill the container
+
+      maxWidth: `${6 * boardSize}rem`, // Set the maximum width for larger screens
+      margin: "0 auto", // Center the board horizontally
+    }}
+  >
       {board.map((candy: string, index: number) => (
         <Tile candy={candy} key={index} candyId={index} />
       ))}
