@@ -1,6 +1,7 @@
 {
   "name": "candy-crush-clone",
   "version": "0.1.0",
+  "homepage": "https://01Clarian.github.io/crypto-crush/",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
