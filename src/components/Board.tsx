@@ -14,11 +14,12 @@ function Board() {
 
   return (
     <div
+   >
+    <div
     className="flex flex-wrap rounded-lg justify-center" // Add justify-center class
     style={{
       width: "100%", // Set the width to 100% to fill the container
       height: "100%", // Set the width to 100% to fill the container
-
       maxWidth: `${6 * boardSize}rem`, // Set the maximum width for larger screens
       margin: "0 auto", // Center the board horizontally
     }}
@@ -31,6 +32,8 @@ function Board() {
         />
       ))}
     </div>
+    </div>
+
   );
 }
 

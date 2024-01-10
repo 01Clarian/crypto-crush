@@ -83,7 +83,11 @@ function App() {
 ))}
     </div>
     <br/>
-      <Board className="mt-4" />
+    <div  style={{touchAction: 'none'}}
+>
+      <Board
+       className="mt-4" />
+       </div>
       <br/>
     </div>
   );

@@ -28,6 +28,7 @@ function Tile({ candy, candyId, isBeingDragged, setIsBeingDragged, isBeingReplac
   }
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
+    
     setIsBeingDragged(true);
     const target = e.target as HTMLImageElement;
     target.style.boxShadow = "0 0 10px #33ff33, 0 0 20px #33ff33, 0 0 30px #33ff33, 0 0 40px #33ff33"; // Add a green glow effect
