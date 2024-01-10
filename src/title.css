@@ -51,3 +51,34 @@ span span:nth-child(2) {
     transform: rotateY(0deg);
   }
 }
+
+/* Define styles for the drag and drop effect */
+.tile {
+    /* Define styles for the candy pieces */
+    width: 50px;
+    height: 50px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Define styles for the dragging effect */
+  .tile.is-being-dragged {
+    transform: scale(1.1);
+  }
+  
+  /* Define styles for the dropping effect */
+  .tile.is-being-replaced {
+    animation: swapAnimation 0.3s ease;
+  }
+  
+  @keyframes swapAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }

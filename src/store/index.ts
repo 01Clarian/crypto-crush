@@ -15,7 +15,7 @@ const initialState: {
 };
 
 const candyCrushSlice = createSlice({
-  name: "candyCrush",
+  name: "cryptoCrush",
   initialState,
   reducers: {
     updateBoard: (state, action: PayloadAction<string[]>) => {
