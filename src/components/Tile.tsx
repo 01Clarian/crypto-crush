@@ -4,6 +4,23 @@ import { useAppDispatch } from "../store/hooks";
 function Tile({ candy, candyId }: { candy: string; candyId: number }) {
   const dispatch = useAppDispatch();
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
+    dispatch(dragStart(e.target));
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
+    // Add touch move logic if needed
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLImageElement>) => {
+    e.preventDefault(); // Prevent default touch behavior
+    const touchTarget = document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+    if (touchTarget) {
+      dispatch(dragDrop(touchTarget));
+    }
+    dispatch(dragEnd());
+  };
+
   return (
     <div
     className="md:w-16  md:h-16 sm:w-10 sm:h-16 lg:w-22 lg:h-22 flex justify-center items-center m-0.5 rounded-lg select-none"
@@ -27,6 +44,9 @@ function Tile({ candy, candyId }: { candy: string; candyId: number }) {
           onDragLeave={(e) => e.preventDefault()}
           onDrop={(e) => dispatch(dragDrop(e.target))}
           onDragEnd={() => dispatch(dragEnd())}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           candy-id={candyId}
         />
       )}
