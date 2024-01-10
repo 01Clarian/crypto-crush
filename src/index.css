@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-image: url("./assets/background.png");
+  background-size: 100%;
+}
