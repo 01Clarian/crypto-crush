@@ -55,7 +55,7 @@ function Tile({ candy, candyId, isBeingDragged, setIsBeingDragged, isBeingReplac
 
   return (
     <div
-    className={`tile-padding md:w-16 md:h-16 lg:w-22 lg:h-22 flex justify-center items-center m-0.5 rounded-lg select-none ${isBeingDragged ? 'is-being-dragged' : ''}`}
+    className={`tile-padding md:w-16 md:h-16 lg:w-20 lg:h-20 flex justify-center items-center m-0.5 rounded-lg select-none ${isBeingDragged ? 'is-being-dragged' : ''}`}
     style={{
       boxShadow: "inset 5px 5px 15px #062525, inset -5px -5px 15px #aaaab7bb",
       width: "calc(100% / 8 - 1rem)", // Adjust the width to fit 8 tiles in a row
