@@ -43,6 +43,7 @@
     margin: 0.5rem;
     @media (max-width: 640px) {
       padding: 0.0rem;
+      margin: 0.4rem;
 
     };
   }
