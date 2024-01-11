@@ -12,11 +12,6 @@
     transition: transform 0.3s ease;
   }
   
-  /* Define styles for the dragging effect */
-  .is-being-dragged {
-    transform: scale(1.1);
-  }
-  
   /* Define styles for the dropping effect */
 .is-being-replaced {
     animation: swapAnimation 0.3s ease;
