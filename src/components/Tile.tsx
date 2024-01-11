@@ -12,7 +12,7 @@ function Tile({ candy, candyId, isBeingDragged, setIsBeingDragged, isBeingReplac
   const handleMouseStart = (e: React.MouseEvent<HTMLImageElement>) => {
     setIsBeingDragged(true);
     const target = e.target as HTMLImageElement;
-    target.style.boxShadow = "0 0 10px #33ff33, 0 0 20px #33ff33, 0 0 30px #33ff33, 0 0 40px #33ff33"; // Add a green glow effect
+    target.style.boxShadow = "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0"; // Add a light yellow glow effect
     target.style.transform = "scale(1.3)"; // Grow the size by 10%    console.log('it works', isBeingDragged)
     dispatch(dragStart(e.target))
     
@@ -31,7 +31,7 @@ function Tile({ candy, candyId, isBeingDragged, setIsBeingDragged, isBeingReplac
     
     setIsBeingDragged(true);
     const target = e.target as HTMLImageElement;
-    target.style.boxShadow = "0 0 10px #33ff33, 0 0 20px #33ff33, 0 0 30px #33ff33, 0 0 40px #33ff33"; // Add a green glow effect
+    target.style.boxShadow = "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0"; // Add a light yellow glow effect
     dispatch(dragStart(e.target));
   };
 
@@ -55,20 +55,17 @@ function Tile({ candy, candyId, isBeingDragged, setIsBeingDragged, isBeingReplac
 
   return (
     <div
-    className={`md:w-16 md:h-16 sm:w-10 sm:h-16 lg:w-22 lg:h-22 flex justify-center items-center m-0.5 rounded-lg select-none ${isBeingDragged ? 'is-being-dragged' : ''}`}    
-      style={{
+    className={`tile-padding md:w-16 md:h-16 lg:w-22 lg:h-22 flex justify-center items-center m-0.5 rounded-lg select-none ${isBeingDragged ? 'is-being-dragged' : ''}`}
+    style={{
       boxShadow: "inset 5px 5px 15px #062525, inset -5px -5px 15px #aaaab7bb",
-      width:  `calc(100% / 8 - 1rem)`, // Adjust the width to fit 8 tiles in a row
-      margin: "0.5rem", // Add some margin between tiles
-      padding: "0.3rem", // Add padding to the container
-
+      width: "calc(100% / 8 - 1rem)", // Adjust the width to fit 8 tiles in a row
     }}
   >
       {candy && (
         <img
           src={candy}
           alt=""
-          className={`sm:w-14 sm:h-14 md:w-17 md:h-17 lg:w-19 lg:h-19 p-1`} 
+          className={`md:w-17 md:h-17 lg:w-19 lg:h-19 p-1`} 
           draggable={true}
           onDragStart={handleMouseStart}
           onDragOver={(e) => e.preventDefault()}
