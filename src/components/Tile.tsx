@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { dragDrop, dragEnd, dragStart, dragOver } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import './tile.css';
+import debounce from 'lodash/debounce';
+
 
 function Tile({ candy, candyId }:
   {
@@ -57,6 +59,8 @@ function Tile({ candy, candyId }:
     ) {
       if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
         target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
+      } else {
+        target.style.boxShadow = "";
       }
     }
 
@@ -130,7 +134,13 @@ function Tile({ candy, candyId }:
   // find a way to keep track of all previous glowing ones and make it so no more than one at a time
   // if more than one remove the previous one 
 
+  const handleDebouncedTouchMove = debounce((e) => {
+    // Your touch move handling logic goes here
+  }, 100); // Adjust the debounce delay as needed
+  
+
   const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
+    handleDebouncedTouchMove(e); // Invoke the debounced touch move handler
 
     const touch = e.changedTouches[0]; // Get the first touch point
     const target = document.elementFromPoint(touch.clientX, touch.clientY); // Get the element under the touch
@@ -172,8 +182,8 @@ function Tile({ candy, candyId }:
             const updatedElements = glowingElements.slice(1); // Remove the first element
             glowingElements[0].style.boxShadow = ''; // Remove glow effect from the last element
             setGlowingElements(updatedElements);
-
           }
+
         }
 
         if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition
@@ -184,6 +194,10 @@ function Tile({ candy, candyId }:
         }
         if (!isBeingDragged) {
           target.style.boxShadow = '';
+        }
+
+        if (target === squareBeingDragged) {
+          glowingElements[0].style.boxShadow = '';
         }
 
       }
