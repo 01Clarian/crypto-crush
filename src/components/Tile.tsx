@@ -203,7 +203,10 @@ function Tile({ candy, candyId }:
   const handlePointerLeave = (e: React.PointerEvent<HTMLImageElement>) => {
     e.preventDefault(); // Prevent default touch behavior
     const target = e.target as HTMLImageElement;
-
+    target.style.boxShadow = ""; // Remove the box shadow
+    target.style.transform = ""; // Grow the size by 10%    console.log('it works', isBeingDragged)      dispatch(dragDrop(touchTarget));
+    glowingElements[0].style.boxShadow = ""; // Remove the box shadow
+    glowingElements[0].style.transform = ""; // Grow the size by 10%
     dispatch(dragEnd());
     setIsBeingDragged(false);
   }
@@ -228,8 +231,10 @@ function Tile({ candy, candyId }:
       }
 
         (squareBeingDragged as any).style.boxShadow = '';
-        glowingElements[0].style.boxShadow = ""; // Remove the box shadow
+        (squareBeingDragged as any).style.transform = '';
 
+        glowingElements[0].style.boxShadow = ""; // Remove the box shadow
+        glowingElements[0].style.transform = ""; // Grow the size by 10%
       console.log(squareBeingDragged)
       dispatch(dragEnd());
       setIsBeingDragged(false);
@@ -257,7 +262,9 @@ function Tile({ candy, candyId }:
           onDragLeave={handleMouseDragLeave}
           onDrop={handleMouseDrop}
           onDragEnd={handleMouseDragEnd}
+
           onPointerLeave={handlePointerLeave}
+
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
