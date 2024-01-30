@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import './tile.css';
 import debounce from 'lodash/debounce';
 
-
 function Tile({ candy, candyId }:
   {
     candy: string;
@@ -15,7 +14,6 @@ function Tile({ candy, candyId }:
   const [draggedOverSquare, setDraggedOverSquare] = useState<EventTarget | null>(null);
   const [isBeingDragged, setIsBeingDragged] = useState(false);
   const [glowingElements, setGlowingElements] = useState<HTMLImageElement[]>([]);
-
 
   const squareBeingDragged = useAppSelector((state) => state.candyCrush.squareBeingDragged);
   const squareBeingDraggedOver = useAppSelector((state) => state.candyCrush.squareBeingDraggedOver);
@@ -137,13 +135,44 @@ function Tile({ candy, candyId }:
   const handleDebouncedTouchMove = debounce((e) => {
     // Your touch move handling logic goes here
   }, 100); // Adjust the debounce delay as needed
-  
+
+
+  let lastTouchX = 0;
+let lastTouchY = 0;
+let lastTouchTime = 0;
+const threshold = 1.5; // Adjust as needed based on testing and user feedback
 
   const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
     handleDebouncedTouchMove(e); // Invoke the debounced touch move handler
 
     const touch = e.changedTouches[0]; // Get the first touch point
     const target = document.elementFromPoint(touch.clientX, touch.clientY); // Get the element under the touch
+    const touchX = touch.clientX;
+    const touchY = touch.clientY;
+    const currentTime = Date.now();
+    const timeDiff = currentTime - lastTouchTime;
+    const distanceX = Math.abs(touchX - lastTouchX);
+    const distanceY = Math.abs(touchY - lastTouchY);
+    const isFastDrag = timeDiff > 0 && (distanceX / timeDiff > threshold || distanceY / timeDiff > threshold);
+
+  // If the drag is fast, clear the box-shadow of all candy images
+  if (isFastDrag) {
+    const candyImages = document.querySelectorAll('img[candy-id]');
+
+    // Type assertion to inform TypeScript that 'candyImages' is a NodeList of HTMLImageElement
+    candyImages.forEach((img) => {
+      if (img instanceof HTMLImageElement && img !== squareBeingDragged) {        // Type assertion to inform TypeScript that 'img' is an HTMLImageElement
+        img.style.boxShadow = '';
+
+        console.log(img,target)
+      }
+    });
+  }
+
+
+  lastTouchX = touchX;
+  lastTouchY = touchY;
+  lastTouchTime = currentTime;
 
     if (target instanceof HTMLImageElement) { // Ensure it's an image element
       const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
@@ -169,9 +198,8 @@ function Tile({ candy, candyId }:
         if (!glowingElements.some((element) => parseInt(element.getAttribute('candy-id') || '0', 10) === candyId
         )) {
           // Add the target element only if its candy-id doesn't exist in the array
-          if(target !== squareBeingDragged) {
-          setGlowingElements((prevElements) => [...prevElements, target]);
-          console.log('glowing array: ',glowingElements);
+          if (target !== squareBeingDragged) {
+            setGlowingElements((prevElements) => [...prevElements, target]);
           }
         }
 
@@ -188,9 +216,11 @@ function Tile({ candy, candyId }:
 
         if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition
           && (target !== squareBeingDragged)
-          ) {
+        ) {
           target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
 
+        } else {
+          target.style.boxShadow = '';
         }
         if (!isBeingDragged) {
           target.style.boxShadow = '';
@@ -244,11 +274,11 @@ function Tile({ candy, candyId }:
         setIsBeingDragged(false);
       }
 
-        (squareBeingDragged as any).style.boxShadow = '';
-        (squareBeingDragged as any).style.transform = '';
+      (squareBeingDragged as any).style.boxShadow = '';
+      (squareBeingDragged as any).style.transform = '';
 
-        glowingElements[0].style.boxShadow = ""; // Remove the box shadow
-        glowingElements[0].style.transform = ""; // Grow the size by 10%
+      glowingElements[0].style.boxShadow = ""; // Remove the box shadow
+      glowingElements[0].style.transform = ""; // Grow the size by 10%
       console.log(squareBeingDragged)
       dispatch(dragEnd());
       setIsBeingDragged(false);
