@@ -8,10 +8,6 @@ function Board() {
     ({ candyCrush: { boardSize } }) => boardSize
   );
 
-  const [isBeingDragged, setIsBeingDragged] = useState(false);
-  const [isBeingReplaced, setIsBeingReplaced] = useState(false);
-
-
   return (
     <div
    >
@@ -26,9 +22,6 @@ function Board() {
   >
       {board.map((candy: string, index: number) => (
         <Tile candy={candy} key={index} candyId={index}
-        isBeingDragged={isBeingDragged} 
-        setIsBeingDragged={setIsBeingDragged}
-        isBeingReplaced={isBeingReplaced} 
         />
       ))}
     </div>

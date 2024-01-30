@@ -1,17 +1,26 @@
 import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
 import { dragEndReducer } from "./reducers/dragEnd";
+
 import { moveBelowReducer } from "./reducers/moveBelow";
 
-const initialState: {
+// Define the type for the state
+export interface CandyCrushState {
   board: string[];
   boardSize: number;
-  squareBeingReplaced: Element | undefined;
-  squareBeingDragged: Element | undefined;
-} = {
+  squareBeingReplaced: undefined;
+  squareBeingDragged: undefined;
+  squareBeingDraggedOver: { x: number; y: number } | undefined;
+  adjacentTiles: { x: number; y: number }[];
+}
+
+
+const initialState: CandyCrushState = {
   board: [],
   boardSize: 8,
   squareBeingDragged: undefined,
+  squareBeingDraggedOver: undefined,
   squareBeingReplaced: undefined,
+  adjacentTiles: [],
 };
 
 const candyCrushSlice = createSlice({
@@ -27,8 +36,12 @@ const candyCrushSlice = createSlice({
     dragDrop: (state, action: PayloadAction<any>) => {
       state.squareBeingReplaced = action.payload;
     },
+    dragOver: (state, action: PayloadAction<any>) => {
+      state.squareBeingDraggedOver = action.payload;
+    },
     dragEnd: dragEndReducer,
     moveBelow: moveBelowReducer,
+
   },
 });
 
@@ -42,7 +55,8 @@ export const store = configureStore({
     }),
 });
 
-export const { updateBoard, moveBelow, dragDrop, dragEnd, dragStart } =
+export const { updateBoard, moveBelow, dragDrop, dragEnd, dragStart, 
+  dragOver } =
   candyCrushSlice.actions;
 
 export type RootState = ReturnType<typeof store.getState>;

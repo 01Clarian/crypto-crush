@@ -36,6 +36,7 @@
   
   .is-being-dragged {
     animation: highlight 1s infinite alternate;
+    
   }
 
   .tile-padding {
@@ -46,4 +47,8 @@
       margin: 0.4rem;
 
     };
+  }
+
+  .glow {
+    box-shadow: 0 0 5px 2px green;
   }
