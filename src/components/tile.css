@@ -34,10 +34,7 @@
     to { background-color: transparent; }
   }
   
-  .is-being-dragged {
-    animation: highlight 1s infinite alternate;
-    
-  }
+
 
   .tile-padding {
     padding: 0rem;

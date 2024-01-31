@@ -1,22 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { dragDrop, dragEnd, dragStart, dragOver } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import './tile.css';
 import debounce from 'lodash/debounce';
 
-function Tile({ candy, candyId }:
-  {
-    candy: string;
-    candyId: number
-  }) {
 
-  // local state of square object structure
-  const [squareState, setSquareState] = useState({
-    isBeingDragged: false,
-    initialSquare: 0,
-    draggedOverSquare: null as any,
-    glowingElements: [] as HTMLImageElement[],
-  });
+interface SquareState {
+  initialSquare: number;
+  draggedOverSquare: any;
+  isBeingDragged: boolean;
+  glowingElements: HTMLImageElement[];
+}
+
+interface TileProps {
+  candy: string;
+  candyId: number;
+  squareState: SquareState;
+  setSquareState: React.Dispatch<React.SetStateAction<SquareState>>;
+}
+
+
+function Tile({ candy, candyId, squareState, setSquareState }: TileProps) 
+ {
 
   const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState
   
@@ -373,4 +378,4 @@ function Tile({ candy, candyId }:
   );
 }
 
-export default Tile;
+export default memo(Tile);

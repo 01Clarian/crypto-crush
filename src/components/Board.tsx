@@ -2,7 +2,17 @@ import { useAppSelector } from "../store/hooks";
 import Tile from "./Tile";
 import {useState} from 'react';
 
+
 function Board() {
+
+    // local board state of square object structure
+    const [squareState, setSquareState] = useState({
+      isBeingDragged: false,
+      initialSquare: 0,
+      draggedOverSquare: null as any,
+      glowingElements: [] as HTMLImageElement[],
+    });
+
   const board: string[] = useAppSelector(({ candyCrush: { board } }) => board);
   const boardSize: number = useAppSelector(
     ({ candyCrush: { boardSize } }) => boardSize
@@ -21,7 +31,12 @@ function Board() {
     }}
   >
       {board.map((candy: string, index: number) => (
-        <Tile candy={candy} key={index} candyId={index}
+        <Tile 
+        candy={candy} 
+        key={index} 
+        candyId={index}
+        squareState={squareState}
+        setSquareState={setSquareState}
         />
       ))}
     </div>
