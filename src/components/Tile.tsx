@@ -20,7 +20,6 @@ function Tile({ candy, candyId }:
 
   const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState
   
-
   // redux state extraction 
   const squareBeingDragged = useAppSelector((state) => state.candyCrush.squareBeingDragged);
   const squareBeingDraggedOver = useAppSelector((state) => state.candyCrush.squareBeingDraggedOver);
@@ -140,8 +139,6 @@ function Tile({ candy, candyId }:
     dispatch(dragDrop(e.target))
    //console.log(e.target)
   }
-
-  // mouse
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
 
@@ -271,9 +268,10 @@ function Tile({ candy, candyId }:
         }
 
         if (target === squareBeingDragged) {
+          if(glowingElements[0]) {
           glowingElements[0].style.boxShadow = '';
+          }
         }
-
       }
 
       else if (candyId !== initialSquare) {
