@@ -3,7 +3,7 @@ import { dragDrop, dragEnd, dragStart, dragOver } from "../store";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import './tile.css';
 import debounce from 'lodash/debounce';
-
+import { useMouseHandlers } from "../utils/user-actions/mouseEvents";
 
 interface SquareState {
   initialSquare: number;
@@ -17,13 +17,12 @@ interface TileProps {
   candyId: number;
   squareState: SquareState;
   setSquareState: React.Dispatch<React.SetStateAction<SquareState>>;
-}
-
+};
 
 function Tile({ candy, candyId, squareState, setSquareState }: TileProps) 
  {
 
-  const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState
+  const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState;
   
   // redux state extraction 
   const squareBeingDragged = useAppSelector((state) => state.candyCrush.squareBeingDragged);
@@ -31,119 +30,13 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
 
   const dispatch = useAppDispatch();
 
-  // user initializes dragging a crypto candy event
-  const handleMouseDragStart = (e: React.MouseEvent<HTMLImageElement>) => {
-    setSquareState(prevState => ({
-      ...prevState,
-      isBeingDragged: true
-    }));
-    const target = e.target as HTMLImageElement;
-    const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
-    target.style.boxShadow = "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff";
-    target.style.transform = "scale(1.3)"; // Grow the size by 10%
-    setSquareState((prevSquareState) => ({
-      ...prevSquareState,
-      initialSquare: candyId
-    }))
-    dispatch(dragStart(e.target));
-    console.log(isBeingDragged); // Logs the updated value within the callback
-
-  };
-
-  // when user drags the initial crypto candy over another one on the board event
-  const handleMouseDragOver = (e: React.MouseEvent<HTMLImageElement>) => {
-    setSquareState(prevState => ({
-      ...prevState,
-      isBeingDragged: true
-    }));
-    e.preventDefault();
-    console.log(isBeingDragged); // Logs the updated value within the callback
-
-    const target = e.target as HTMLImageElement;
-    const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
-
-    const squareBeingDraggedInitialPosition = (squareBeingDragged as any).getAttribute('candy-id');
-
-    const positionsX = (squareBeingDraggedOver as any)?.positionX;
-    const positionsY = (squareBeingDraggedOver as any)?.positionY;
-    const squareBeingDraggedOverPosition = positionsY * 8 + positionsX;
-
-    // Apply glow effect only to the dragged image
-    // Check for adjacency in all directions (including diagonals)
-    // Check for adjacency in all directions (including diagonals)
-    if (
-      Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 1 || // check horizontal adjacency
-      Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 8 || // Check for vertical adjacency
-      (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 7) || // Check for diagonal adjacency (top-left/bottom-right)
-      (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 9) // Check for diagonal adjacency (top-right/bottom-left)
-    ) {
-      console.log('this',isBeingDragged)
-      if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
-        target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
-      } else {
-        target.style.boxShadow = "";
-      }
-    }
-
-    else if (candyId !== initialSquare) {
-      target.style.boxShadow = ""; // Remove glow effect if not adjacent
-      target.style.transform = ""; // Reset size
-    } else {
-      target.style.boxShadow = "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff";
-    }
-
-    dispatch(dragOver({ positionX: candyId % 8, positionY: Math.floor(candyId / 8) }));
-    setSquareState((prevSquareState) => ({
-      ...prevSquareState,
-      draggedOverSquare: target
-    }))
-
-  };
-
-  // when the user releases the dragged element 
-  const handleMouseDragEnd = (e: React.DragEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    target.style.boxShadow = ""; // Remove the box shadow
-    target.style.transform = ""; // Reset the size
-    setSquareState(prevState => ({
-      ...prevState,
-      initialSquare: 0
-    }));// reset initial square
-    dispatch(dragEnd());
-    setSquareState(prevState => ({
-      ...prevState,
-      isBeingDragged: false
-    }));
-  };
-
-  // when the user drops the dragged element onto an invalid move
-  const handleMouseDragLeave = (e: React.DragEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
-
-    if (draggedOverSquare instanceof HTMLImageElement) {
-      (draggedOverSquare as HTMLImageElement).style.boxShadow = " "; // Remove the glow effect from the dragged over square
-    }
-
-    if (candyId !== initialSquare) {
-      // Only remove the glow effect if it's not the initial square
-      target.style.boxShadow = "";
-      target.style.transform = "";
-    }
-    dispatch(dragEnd());
-    setSquareState(prevState => ({
-      ...prevState,
-      isBeingDragged: false
-    }));
-  };
-
-  // when user drops onto another valid tile
-  const handleMouseDrop = (e: React.DragEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    target.style.boxShadow = "";
-    dispatch(dragDrop(e.target))
-   //console.log(e.target)
-  }
+  const { 
+    handleMouseDragStart, 
+    handleMouseDragOver, 
+    handleMouseDragLeave, 
+    handleMouseDrop, 
+    handleMouseDragEnd } = useMouseHandlers(
+    setSquareState, isBeingDragged, initialSquare, draggedOverSquare);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
 
@@ -173,7 +66,6 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
   const handleDebouncedTouchMove = debounce((e) => {
     // Your touch move handling logic goes here
   }, 100); // Adjust the debounce delay as needed
-
 
   let lastTouchX = 0;
   let lastTouchY = 0;
@@ -207,7 +99,6 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
       });
     }
 
-
     lastTouchX = touchX;
     lastTouchY = touchY;
     lastTouchTime = currentTime;
@@ -217,14 +108,14 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
 
       const squareBeingDraggedInitialPosition = (squareBeingDragged as any).getAttribute('candy-id');
 
-      const positionsX = (squareBeingDraggedOver as any)?.positionX;
-      const positionsY = (squareBeingDraggedOver as any)?.positionY;
-      const squareBeingDraggedOverPosition = positionsY * 8 + positionsX;
-
+      const positionX = (squareBeingDraggedOver as any)?.positionX;
+      const positionY = (squareBeingDraggedOver as any)?.positionY;
+      const squareBeingDraggedOverPosition = positionY * 8 + positionX;
 
       // Apply glow effect only to the dragged image
       // Check for adjacency in all directions (including diagonals)
       // Check for adjacency in all directions (including diagonals)
+      
       if (
         Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 1 || // check horizontal adjacency
         Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 8 || // Check for vertical adjacency
