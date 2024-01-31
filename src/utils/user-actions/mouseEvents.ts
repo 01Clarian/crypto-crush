@@ -75,7 +75,6 @@ export function useMouseHandlers(
       (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 7) || // Check for diagonal adjacency (top-left/bottom-right)
       (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 9) // Check for diagonal adjacency (top-right/bottom-left)
     ) {
-      console.log('this',isBeingDragged)
       if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
         target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
       } else {
