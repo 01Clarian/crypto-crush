@@ -1,6 +1,4 @@
 import React, { memo } from "react";
-import { dragDrop, dragEnd, dragStart, dragOver } from "../store";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
 import './tile.css';
 import { useMouseHandlers } from "../utils/user-actions/mouseEvents";
 import { useTouchHandlers } from "../utils/user-actions/touchEvents";
