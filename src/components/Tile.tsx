@@ -10,11 +10,18 @@ function Tile({ candy, candyId }:
     candyId: number
   }) {
 
-  const [initialSquare, setInitialSquare] = useState(0);
-  const [draggedOverSquare, setDraggedOverSquare] = useState<EventTarget | null>(null);
-  const [isBeingDragged, setIsBeingDragged] = useState(false);
-  const [glowingElements, setGlowingElements] = useState<HTMLImageElement[]>([]);
+  // local state of square object structure
+  const [squareState, setSquareState] = useState({
+    isBeingDragged: false,
+    initialSquare: 0,
+    draggedOverSquare: null as any,
+    glowingElements: [] as HTMLImageElement[],
+  });
 
+  const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState
+  
+
+  // redux state extraction 
   const squareBeingDragged = useAppSelector((state) => state.candyCrush.squareBeingDragged);
   const squareBeingDraggedOver = useAppSelector((state) => state.candyCrush.squareBeingDraggedOver);
 
@@ -22,20 +29,32 @@ function Tile({ candy, candyId }:
 
   // user initializes dragging a crypto candy event
   const handleMouseDragStart = (e: React.MouseEvent<HTMLImageElement>) => {
-    setIsBeingDragged(true);
+    setSquareState(prevState => ({
+      ...prevState,
+      isBeingDragged: true
+    }));
     const target = e.target as HTMLImageElement;
     const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
     target.style.boxShadow = "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff";
     target.style.transform = "scale(1.3)"; // Grow the size by 10%
-    setInitialSquare(candyId);
+    setSquareState((prevSquareState) => ({
+      ...prevSquareState,
+      initialSquare: candyId
+    }))
     dispatch(dragStart(e.target));
+    console.log(isBeingDragged); // Logs the updated value within the callback
 
   };
 
   // when user drags the initial crypto candy over another one on the board event
   const handleMouseDragOver = (e: React.MouseEvent<HTMLImageElement>) => {
-    setIsBeingDragged(true);
+    setSquareState(prevState => ({
+      ...prevState,
+      isBeingDragged: true
+    }));
     e.preventDefault();
+    console.log(isBeingDragged); // Logs the updated value within the callback
+
     const target = e.target as HTMLImageElement;
     const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
 
@@ -53,8 +72,8 @@ function Tile({ candy, candyId }:
       Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 8 || // Check for vertical adjacency
       (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 7) || // Check for diagonal adjacency (top-left/bottom-right)
       (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 9) // Check for diagonal adjacency (top-right/bottom-left)
-
     ) {
+      console.log('this',isBeingDragged)
       if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
         target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
       } else {
@@ -68,10 +87,13 @@ function Tile({ candy, candyId }:
     } else {
       target.style.boxShadow = "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff";
     }
-    // setDraggedOverSquare(draggedOverImage)
-    // console.log(draggedOverSquare)
+
     dispatch(dragOver({ positionX: candyId % 8, positionY: Math.floor(candyId / 8) }));
-    setDraggedOverSquare(target);
+    setSquareState((prevSquareState) => ({
+      ...prevSquareState,
+      draggedOverSquare: target
+    }))
+
   };
 
   // when the user releases the dragged element 
@@ -79,9 +101,15 @@ function Tile({ candy, candyId }:
     const target = e.target as HTMLImageElement;
     target.style.boxShadow = ""; // Remove the box shadow
     target.style.transform = ""; // Reset the size
-    setInitialSquare(0); // Reset initial square
+    setSquareState(prevState => ({
+      ...prevState,
+      initialSquare: 0
+    }));// reset initial square
     dispatch(dragEnd());
-    setIsBeingDragged(false); // Set isBeingDragged to false when the drag operation ends
+    setSquareState(prevState => ({
+      ...prevState,
+      isBeingDragged: false
+    }));
   };
 
   // when the user drops the dragged element onto an invalid move
@@ -99,8 +127,10 @@ function Tile({ candy, candyId }:
       target.style.transform = "";
     }
     dispatch(dragEnd());
-    setIsBeingDragged(false); // Set isBeingDragged to false when the drag operation ends
-
+    setSquareState(prevState => ({
+      ...prevState,
+      isBeingDragged: false
+    }));
   };
 
   // when user drops onto another valid tile
@@ -108,14 +138,17 @@ function Tile({ candy, candyId }:
     const target = e.target as HTMLImageElement;
     target.style.boxShadow = "";
     dispatch(dragDrop(e.target))
-    console.log(e.target)
+   //console.log(e.target)
   }
 
   // mouse
 
   const handleTouchStart = (e: React.TouchEvent<HTMLImageElement>) => {
 
-    setIsBeingDragged(true);
+    setSquareState(prevState => ({
+      ...prevState,
+      isBeingDragged: true
+    }));
     const touch = e.changedTouches[0]; // Get the first touch point
     const target = document.elementFromPoint(touch.clientX, touch.clientY); // Get the element under the touch
 
@@ -124,7 +157,10 @@ function Tile({ candy, candyId }:
       const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
       target.style.boxShadow = "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff";
       target.style.transform = "scale(1.3)"; // Grow the size by 10%
-      setInitialSquare(candyId);
+      setSquareState(prevState => ({
+        ...prevState,
+        initialSquare:candyId
+      })) // reset initial square
       dispatch(dragStart(target));
     }
   };
@@ -138,9 +174,9 @@ function Tile({ candy, candyId }:
 
 
   let lastTouchX = 0;
-let lastTouchY = 0;
-let lastTouchTime = 0;
-const threshold = 1.5; // Adjust as needed based on testing and user feedback
+  let lastTouchY = 0;
+  let lastTouchTime = 0;
+  const threshold = 1.5; // Adjust as needed based on testing and user feedback
 
   const handleTouchMove = (e: React.TouchEvent<HTMLImageElement>) => {
     handleDebouncedTouchMove(e); // Invoke the debounced touch move handler
@@ -155,24 +191,24 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
     const distanceY = Math.abs(touchY - lastTouchY);
     const isFastDrag = timeDiff > 0 && (distanceX / timeDiff > threshold || distanceY / timeDiff > threshold);
 
-  // If the drag is fast, clear the box-shadow of all candy images
-  if (isFastDrag) {
-    const candyImages = document.querySelectorAll('img[candy-id]');
+    // If the drag is fast, clear the box-shadow of all candy images
+    if (isFastDrag) {
+      const candyImages = document.querySelectorAll('img[candy-id]');
 
-    // Type assertion to inform TypeScript that 'candyImages' is a NodeList of HTMLImageElement
-    candyImages.forEach((img) => {
-      if (img instanceof HTMLImageElement && img !== squareBeingDragged) {        // Type assertion to inform TypeScript that 'img' is an HTMLImageElement
-        img.style.boxShadow = '';
+      // Type assertion to inform TypeScript that 'candyImages' is a NodeList of HTMLImageElement
+      candyImages.forEach((img) => {
+        if (img instanceof HTMLImageElement && img !== squareBeingDragged) {        // Type assertion to inform TypeScript that 'img' is an HTMLImageElement
+          img.style.boxShadow = '';
 
-        console.log(img,target)
-      }
-    });
-  }
+          console.log(img, target)
+        }
+      });
+    }
 
 
-  lastTouchX = touchX;
-  lastTouchY = touchY;
-  lastTouchTime = currentTime;
+    lastTouchX = touchX;
+    lastTouchY = touchY;
+    lastTouchTime = currentTime;
 
     if (target instanceof HTMLImageElement) { // Ensure it's an image element
       const candyId = parseInt(target.getAttribute('candy-id') || '0', 10);
@@ -199,7 +235,12 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
         )) {
           // Add the target element only if its candy-id doesn't exist in the array
           if (target !== squareBeingDragged) {
-            setGlowingElements((prevElements) => [...prevElements, target]);
+            setSquareState(prevState =>({
+              ...prevState,
+              glowingElements: [...prevState.glowingElements, target]
+            }));
+            
+           // setGlowingElements((prevElements) => [...prevElements, target]);
           }
         }
 
@@ -209,11 +250,14 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
 
             const updatedElements = glowingElements.slice(1); // Remove the first element
             glowingElements[0].style.boxShadow = ''; // Remove glow effect from the last element
-            setGlowingElements(updatedElements);
+            setSquareState(prevState =>({
+              ...prevState,
+              glowingElements: updatedElements
+            }));
           }
 
         }
-
+        console.log('rs',isBeingDragged)
         if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition
           && (target !== squareBeingDragged)
         ) {
@@ -240,7 +284,10 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
       }
 
       dispatch(dragOver({ positionX: candyId % 8, positionY: Math.floor(candyId / 8) }));
-      setDraggedOverSquare(target);
+      setSquareState(prevState=>({
+        ...prevState,
+        draggedOverSquare:target
+      }))
     }
   };
 
@@ -249,10 +296,14 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
     const target = e.target as HTMLImageElement;
     target.style.boxShadow = ""; // Remove the box shadow
     target.style.transform = ""; // Grow the size by 10%    console.log('it works', isBeingDragged)      dispatch(dragDrop(touchTarget));
+    if(glowingElements[0]) {
     glowingElements[0].style.boxShadow = ""; // Remove the box shadow
     glowingElements[0].style.transform = ""; // Grow the size by 10%
+    }
     dispatch(dragEnd());
-    setIsBeingDragged(false);
+    setSquareState(prevState=>({
+      ...prevState,
+      isBeingDragged:false}));
   }
 
 
@@ -271,7 +322,9 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
         target.style.boxShadow = ""; // Remove the box shadow
         target.style.transform = ""; // Grow the size by 10%    console.log('it works', isBeingDragged)      dispatch(dragDrop(touchTarget));
         dispatch(dragDrop(touchTarget));
-        setIsBeingDragged(false);
+        setSquareState(prevState=>({
+          ...prevState,
+          isBeingDragged:false}));
       }
 
       (squareBeingDragged as any).style.boxShadow = '';
@@ -281,7 +334,9 @@ const threshold = 1.5; // Adjust as needed based on testing and user feedback
       glowingElements[0].style.transform = ""; // Grow the size by 10%
       console.log(squareBeingDragged)
       dispatch(dragEnd());
-      setIsBeingDragged(false);
+      setSquareState(prevState=>({
+        ...prevState,
+        isBeingDragged:false}));
     }
 
   };
