@@ -42,7 +42,9 @@ const HomePage = () => {
         ))}
       </div>
       <br /><br />
-      <button onClick={startGame}>Start Game</button>
+      <button 
+      className="rainbow-btn"
+      onClick={startGame}><span>START</span></button>
       <br /><br /><br /><br /><br /><br /><br /><br />
     </div>
   );

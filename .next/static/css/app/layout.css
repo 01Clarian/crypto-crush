@@ -597,6 +597,12 @@ video {
     max-width: 1536px;
   }
 }
+.absolute {
+  position: absolute;
+}
+.relative {
+  position: relative;
+}
 .m-0 {
   margin: 0px;
 }
@@ -606,8 +612,17 @@ video {
 .m-1 {
   margin: 0.25rem;
 }
+.block {
+  display: block;
+}
 .flex {
   display: flex;
+}
+.hidden {
+  display: none;
+}
+.transform {
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 .select-none {
   -webkit-user-select: none;
@@ -632,10 +647,76 @@ video {
 .p-1 {
   padding: 0.25rem;
 }
+.transition {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
 
 body {
   background-image: url(/_next/static/media/background.365938a5.png);
   background-size: 100%;
+}
+
+
+.rainbow-btn {
+  margin: 20px auto;
+  width:10rem;
+  text-align: center;
+  position: relative;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: block;
+  z-index: 2;
+  overflow: hidden;
+  padding: 8px;
+  opacity:.8;
+  height: 20%; 
+}
+.rainbow-btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  opacity: 1;
+  height: 100%;
+  background: linear-gradient(115deg,#18369f,#48cdfa,#efdefe,#12bcfe,#4b44ce);
+  background-size: 50% 100%
+}
+.rainbow-btn span {
+  position: relative;
+  z-index: 2;
+  padding: .875rem 0;
+  font-size: 1.1rem;
+  opacity: 1;
+  text-decoration: none;
+  align-items: center;
+  background: rgb(6, 26, 77);
+  border-radius: 3px;
+  display: block;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+  font-size: 20px;
+  font-family:Helvetica, sans-serif;
+}
+.rainbow-btn:focus:before,
+.rainbow-btn:hover:before {
+  animation: rainbow-btn 3.75s linear infinite
+}
+
+@keyframes rainbow-btn {
+  to {
+      transform: translateX(-50%)
+  }
 }
 
 @media (min-width: 640px) {
@@ -678,4 +759,3 @@ body {
     width: 5rem;
   }
 }
-
