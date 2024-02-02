@@ -18,7 +18,6 @@ import {
 import WAVES from 'vanta/dist/vanta.waves.min'
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
-
 function App() {
   const dispatch = useAppDispatch();
   const board = useAppSelector(({ candyCrush: { board } }) => board);

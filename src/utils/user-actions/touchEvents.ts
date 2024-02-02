@@ -18,13 +18,6 @@ interface SquareState {
         glowingElements: HTMLImageElement[]
     
     ) {
-        
-    const [squareState, setInternalSquareState] = useState<SquareState>({
-        isBeingDragged: false,
-        initialSquare: 0,
-        draggedOverSquare: null,
-        glowingElements: [],
-    });
 
     // redux state extraction 
     const squareBeingDragged = useAppSelector((state) => state.candyCrush.squareBeingDragged);
