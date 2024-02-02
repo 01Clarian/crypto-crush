@@ -1,12 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
-
-
-
-span {
+.my-span {
   display: inline-block;
   position: relative;
   font-size: 6vw;
-  font-family: "Fredoka One", cursive;
+  font-family: "Helvetica";
   color: #033f74;
   transition: all 0.5s;
   animation: rotate 5s ease-in infinite alternate;
@@ -15,7 +11,7 @@ span {
   transform-style: preserve-3d;
 }
 
-span::after {
+.my-span::after {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -28,17 +24,17 @@ span::after {
   -webkit-text-stroke: 0px #c4cb58;
 }
 
-span span {
+.my-span span {
   position: absolute;
   top: 0;
   left: 0;
   animation: none;
 }
 
-span span:nth-child(1) {
+.my-span span:nth-child(1) {
   transform: translateZ(-1px);
 }
-span span:nth-child(2) {
+.my-span span:nth-child(2) {
   transform: translateZ(-2px);
 }
 /* ... continue for span:nth-child(3) to span:nth-child(11) */

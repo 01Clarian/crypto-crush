@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Board from "./components/Board";
-import { moveBelow, updateBoard } from "./store";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { createBoard } from "./utils/createBoard";
-import './title.css';
+import Board from "../components/Board";
+import { moveBelow, updateBoard } from "../store";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { createBoard } from "../utils/createBoard";
+import styles from '../styles/title.module.css';
 import {
   formulaForColumnOfFour,
   formulaForColumnOfThree,
   generateInvalidMoves,
-} from "./utils/formulas";
+} from "../utils/formulas";
 import {
   checkForColumnOfThree,
   checkForRowOfFour,
   checkForRowOfThree,
   isColumnOfFour,
-} from "./utils/moveCheckLogic";
-import WAVES from 'vanta/dist/vanta.waves.min'
+} from "../utils/moveCheckLogic";
+ import WAVES from 'vanta/dist/vanta.waves.min'
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
 
-function App() {
+const Home = () => {
   const dispatch = useAppDispatch();
   const board = useAppSelector(({ candyCrush: { board } }) => board);
   const words = ["C", "R", "Y", "P", "T", "O",
@@ -28,7 +28,8 @@ function App() {
   const boardSize = useAppSelector(
     ({ candyCrush: { boardSize } }) => boardSize
   );
-  const [vantaEffect, setVantaEffect] = useState(null)
+  const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
+  
   const myRef = useRef(null)
 
   useEffect(() => {
@@ -41,6 +42,7 @@ function App() {
       if (vantaEffect) vantaEffect.destroy()
     }
   }, [vantaEffect])
+
 
   useEffect(() => {
     dispatch(updateBoard(createBoard(boardSize)));
@@ -68,28 +70,31 @@ function App() {
   }, [board, dispatch, boardSize]);
 
   return (
+
     <div ref={myRef} className="flex flex-col items-center justify-center">
+
       <br/><br/>
 
       <div className='m-1'>
       {words.map((word, index) => (
-  <span key={`word-${index}`} data-char={word}>
+  <div className={styles['my-span']}   key={`word-${index}`} data-char={word}>
     {word}
     {Array.from({ length: 10 }, (_, i) => (
-      <span key={`char-${word}-${i}`}>{word}</span>
+      <span className='my-span2' key={`char-${word}-${i}`}>{word}</span>
     ))}
-  </span>
+  </div>
 ))}
     </div>
     <br/>
     <div>
     <div  style={{touchAction: 'none'}}>
       <Board
-       className="mt-4" />
+        />
        </div>
        </div>
       <br/>
     </div>
   );
 }
-export default App;
+
+export default Home;
