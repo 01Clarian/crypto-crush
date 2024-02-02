@@ -23,7 +23,7 @@ export const moveBelowReducer = (
 
     if (isFirstRow && newBoard[i] === "") {
       let randomNumber = Math.floor(Math.random() * candies.length);
-      newBoard[i] = candies[randomNumber];
+      newBoard[i] = candies[randomNumber].src;
       boardChanges = true;
     }
 
