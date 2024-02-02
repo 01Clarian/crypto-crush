@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+
+
+span {
+  display: inline-block;
+  position: relative;
+  font-size: 6vw;
+  font-family: "Fredoka One", cursive;
+  color: #033f74;
+  transition: all 0.5s;
+  animation: rotate 5s ease-in infinite alternate;
+  letter-spacing: 0.5vw;
+  -webkit-text-stroke: 1.5px #f8fad4;
+  transform-style: preserve-3d;
+}
+
+span::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 2vw;
+  content: attr(data-char);
+  transform: translateY(75%) rotateX(180deg);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-image: linear-gradient(180deg, rgba(246, 255, 107, 0.0) 10%, rgba(246, 255, 107, 0.5));
+  -webkit-text-stroke: 0px #c4cb58;
+}
+
+span span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: none;
+}
+
+span span:nth-child(1) {
+  transform: translateZ(-1px);
+}
+span span:nth-child(2) {
+  transform: translateZ(-2px);
+}
+/* ... continue for span:nth-child(3) to span:nth-child(11) */
+
+@keyframes rotate {
+  0% {
+    transform: rotateY(65deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+/* Define styles for the drag and drop effect */
+.tile {
+    /* Define styles for the candy pieces */
+    width: 50px;
+    height: 50px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Define styles for the dragging effect */
+  .tile.is-being-dragged {
+    transform: scale(1.1);
+  }
+  
+  /* Define styles for the dropping effect */
+  .tile.is-being-replaced {
+    animation: swapAnimation 0.3s ease;
+  }
+  
+  @keyframes swapAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
