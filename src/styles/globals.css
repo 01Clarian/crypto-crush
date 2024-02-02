@@ -52,9 +52,17 @@ body {
   font-size: 20px;
   font-family:Helvetica, sans-serif;
 }
-.rainbow-btn:focus:before,
+.rainbow-btn:active:before, /* Use :active for touch */
 .rainbow-btn:hover:before {
-  animation: rainbow-btn 3.75s linear infinite
+  -webkit-animation: rainbow-btn 1s linear infinite; /* Add prefixes */
+  animation: rainbow-btn 1s linear infinite;
+}
+
+.glowing-border {
+  border: 2px solid rgba(0, 255, 255, 0.5); /* Adjust color and width as needed */
+  border-radius: 5px; /* Optional for rounded corners */
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Create the glow effect */
+  padding:14px;
 }
 
 @keyframes rainbow-btn {

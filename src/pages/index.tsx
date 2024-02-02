@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react'
 import styles from '../styles/title.module.css';
 import WAVES from 'vanta/dist/vanta.waves.min'
+import gameSnap from '../assets/game-snap.png'; // Import the image
 
 const HomePage = () => {
 
@@ -45,6 +46,16 @@ const HomePage = () => {
       <button 
       className="rainbow-btn"
       onClick={startGame}><span>START</span></button>
+      <div
+      className='m-5'
+      >
+      <img
+        src={gameSnap.src}
+        width={600}
+        alt="Game Snap"
+        className="glowing-border p-2" // Apply class for glowing border
+      />
+      </div>
       <br /><br /><br /><br /><br /><br /><br /><br />
     </div>
   );

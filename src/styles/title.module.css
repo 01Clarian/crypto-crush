@@ -66,6 +66,12 @@
   .tile.is-being-replaced {
     animation: swapAnimation 0.3s ease;
   }
+ 
+  @media (max-width: 480px) {
+    .my-span {
+      font-size: 10vw; /* Increase font size for phones */
+    }
+  }
   
   @keyframes swapAnimation {
     0% {
