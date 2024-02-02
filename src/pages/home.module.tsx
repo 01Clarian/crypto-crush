@@ -15,9 +15,8 @@ import {
   checkForRowOfThree,
   isColumnOfFour,
 } from "../utils/moveCheckLogic";
-import WAVES from 'vanta/dist/vanta.waves.min'
+// import WAVES from 'vanta/dist/vanta.waves.min'
 // Make sure window.THREE is defined, e.g. by including three.min.js in the document head using a <script> tag
-
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +31,7 @@ const Home = () => {
   const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
   
   const myRef = useRef(null)
-
+/*
   useEffect(() => {
     if (!vantaEffect) {
       setVantaEffect(WAVES({
@@ -43,6 +42,7 @@ const Home = () => {
       if (vantaEffect) vantaEffect.destroy()
     }
   }, [vantaEffect])
+*/
 
   useEffect(() => {
     dispatch(updateBoard(createBoard(boardSize)));
