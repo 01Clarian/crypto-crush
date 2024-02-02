@@ -28,7 +28,7 @@ const Home = () => {
   const boardSize = useAppSelector(
     ({ candyCrush: { boardSize } }) => boardSize
   );
-  const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
+//  const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
   
   const myRef = useRef(null)
 /*
