@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import styles from '../styles/title.module.css';
 import WAVES from 'vanta/dist/vanta.waves.min'
 import gameSnap from '../assets/game-snap.png'; // Import the image
+import audioRef from '../assets/music/song.mp3'; // Import the audio file
+import useSound from 'use-sound';
+import song from '../../public/song.mp3';
 
 const HomePage = () => {
 
@@ -13,6 +16,9 @@ const HomePage = () => {
 
   const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
   const myRef = useRef(null)
+  const [play] = useSound('song.mp3');
+  const [playing, setPlaying] = useState(false);
+
 
   useEffect(() => {
     if (!vantaEffect) {
@@ -22,12 +28,18 @@ const HomePage = () => {
     }
     return () => {
       if (vantaEffect) vantaEffect.destroy()
+
     }
   }, [vantaEffect])
+  
 
-  const startGame = () => {
-    router.push('/play'); // Or router.replace('/game')
+  const startGame = (e: React.MouseEvent) => {
+    e.preventDefault();
+   router.push('/play'); // Or router.replace('/game')
+    play()
+    setPlaying(true); // Set playing state to true when the audio starts
   };
+
 
   return (
     <div ref={myRef} className="flex flex-col items-center justify-center">

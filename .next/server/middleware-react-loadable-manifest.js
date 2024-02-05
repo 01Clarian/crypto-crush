@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"_app.js -> ./play\":{\"id\":\"_app.js -> ./play\",\"files\":[\"static/chunks/src_pages_play_tsx.js\"]}}"
+self.__REACT_LOADABLE_MANIFEST="{\"../../node_modules/use-sound/dist/use-sound.esm.js -> howler\":{\"id\":\"../../node_modules/use-sound/dist/use-sound.esm.js -> howler\",\"files\":[\"static/chunks/node_modules_howler_dist_howler_js.js\"]},\"_app.js -> ./play\":{\"id\":\"_app.js -> ./play\",\"files\":[\"static/chunks/src_pages_play_tsx.js\"]}}"
