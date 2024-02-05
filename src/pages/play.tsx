@@ -41,6 +41,21 @@ const Home = () => {
       if (vantaEffect) vantaEffect.destroy()
     }
   }, [vantaEffect])
+const entries = performance.getEntriesByType("navigation")[0]
+
+  useEffect(() => {
+    // hard reload with back button
+
+    const handleBackButton = () => {
+      if (entries) {
+        location.reload();
+      }
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => window.removeEventListener('popstate', handleBackButton);
+  }, []);
 
 
   useEffect(() => {

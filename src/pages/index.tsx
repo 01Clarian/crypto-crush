@@ -16,7 +16,7 @@ const HomePage = () => {
 
   const [vantaEffect, setVantaEffect] = useState<ReturnType<typeof WAVES>>(null);
   const myRef = useRef(null)
-  const [play] = useSound('song.mp3');
+  const [play, exposedData] = useSound('song.mp3');
   const [playing, setPlaying] = useState(false);
 
 
@@ -28,7 +28,7 @@ const HomePage = () => {
     }
     return () => {
       if (vantaEffect) vantaEffect.destroy()
-
+      exposedData.stop();
     }
   }, [vantaEffect])
   
