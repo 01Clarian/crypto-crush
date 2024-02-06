@@ -11,6 +11,7 @@ function Board() {
       initialSquare: 0,
       draggedOverSquare: null as any,
       glowingElements: [] as HTMLImageElement[],
+      playedSoundForElement: new Set<number>(), 
     });
 
   const board: string[] = useAppSelector(({ candyCrush: { board } }) => board);

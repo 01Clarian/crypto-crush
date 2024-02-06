@@ -3,9 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import styles from '../styles/title.module.css';
 import WAVES from 'vanta/dist/vanta.waves.min'
 import gameSnap from '../assets/game-snap.png'; // Import the image
-import audioRef from '../assets/music/song.mp3'; // Import the audio file
 import useSound from 'use-sound';
-import song from '../../public/song.mp3';
 
 const HomePage = () => {
 

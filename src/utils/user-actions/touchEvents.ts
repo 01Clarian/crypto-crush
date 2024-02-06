@@ -4,9 +4,8 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import debounce from 'lodash/debounce';
 
 interface SquareState {
-    initialSquare: number;
-    draggedOverSquare: any;
     isBeingDragged: boolean;
+    initialSquare: number;
     glowingElements: HTMLImageElement[];
     };
 
@@ -14,9 +13,7 @@ interface SquareState {
         setSquareState: React.Dispatch<React.SetStateAction<SquareState>>,
         isBeingDragged: boolean,
         initialSquare: number,
-        draggedOverSquare: any,
         glowingElements: HTMLImageElement[]
-    
     ) {
 
     // redux state extraction 

@@ -8,6 +8,8 @@ interface SquareState {
   draggedOverSquare: any;
   isBeingDragged: boolean;
   glowingElements: HTMLImageElement[];
+  playedSoundForElement: Set<number>
+
 }
 
 interface TileProps {
@@ -18,7 +20,7 @@ interface TileProps {
 };
 
 function Tile({ candy, candyId, squareState, setSquareState }: TileProps) 
-{ const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements} = squareState;
+{ const {isBeingDragged, initialSquare, draggedOverSquare, glowingElements, playedSoundForElement} = squareState;
   
   const { 
     handleMouseDragStart, 
@@ -26,14 +28,14 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
     handleMouseDragLeave, 
     handleMouseDrop, 
     handleMouseDragEnd } = useMouseHandlers(
-    setSquareState, isBeingDragged, initialSquare, draggedOverSquare);
+    setSquareState, isBeingDragged, initialSquare, draggedOverSquare, playedSoundForElement);
 
   const {
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
     handlePointerLeave } = useTouchHandlers(
-    setSquareState, isBeingDragged, initialSquare, draggedOverSquare, glowingElements);      
+    setSquareState, isBeingDragged, initialSquare, glowingElements, draggedOverSquare, playedSoundForElement);      
 
   return (
     <div
