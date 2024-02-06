@@ -4,16 +4,20 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import debounce from 'lodash/debounce';
 
 interface SquareState {
-    isBeingDragged: boolean;
     initialSquare: number;
+    draggedOverSquare: any;
+    isBeingDragged: boolean;
     glowingElements: HTMLImageElement[];
+    playedSoundForElement: Set<number>;
     };
 
     export function useTouchHandlers(
         setSquareState: React.Dispatch<React.SetStateAction<SquareState>>,
         isBeingDragged: boolean,
         initialSquare: number,
-        glowingElements: HTMLImageElement[]
+        glowingElements: HTMLImageElement[],
+        draggedOverSquare: any,
+        playedSoundForElement: any,
     ) {
 
     // redux state extraction 

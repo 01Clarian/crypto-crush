@@ -35,7 +35,7 @@ function Tile({ candy, candyId, squareState, setSquareState }: TileProps)
     handleTouchMove,
     handleTouchEnd,
     handlePointerLeave } = useTouchHandlers(
-    setSquareState, isBeingDragged, initialSquare, glowingElements);      
+    setSquareState, isBeingDragged, initialSquare, draggedOverSquare, glowingElements, playedSoundForElement);      
 
   return (
     <div

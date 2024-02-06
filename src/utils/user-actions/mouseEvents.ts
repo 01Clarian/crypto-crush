@@ -89,17 +89,17 @@ export function useMouseHandlers(
 
     if (!playedSoundForElement.has(squareBeingDraggedOverPosition) 
       && !soundCooldown && !playing) {
-        
-        if (candyId !== initialSquare) {
-      playHover(); // Play the sound immediately
 
+        if (candyId !== initialSquare) {  
+      playHover(); // Play the sound immediately
       playedSoundForElement.add(squareBeingDraggedOverPosition);
       setSoundCooldown(true); // Start the cooldown
-        }
+
       setTimeout(() => {
         setSoundCooldown(false); // End the cooldown after the delay
       }, 200); // Adjust the delay as needed
     }
+  }
           
       if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
         target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
