@@ -29,8 +29,6 @@ export function useMouseHandlers(
     const [soundCooldown, setSoundCooldown] = useState(false);
     const [previousMouseX, setPreviousMouseX] = useState(0);
     const [previousMouseY, setPreviousMouseY] = useState(0);
-    let isMouseOver = false;  // Flag to track mouse over state
-
 
     const dispatch = useAppDispatch();
 
@@ -62,7 +60,7 @@ export function useMouseHandlers(
 
     // event when user drags an element 
     const handleMouseDragOver = (e: React.MouseEvent<HTMLImageElement>) => {
-    
+
     e.preventDefault();
 
     setSquareState(prevState => ({
@@ -81,20 +79,23 @@ export function useMouseHandlers(
 
     setPlaying(true);
 
-
     // restrict glowing elements to adjacent from selected element being dragged
     if (
       Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 1 || // check horizontal adjacency
       Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 8 || // Check for vertical adjacency
-      (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 7) || // Check for diagonal adjacency (top-left/bottom-right)
-      (Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 9) // Check for diagonal adjacency (top-right/bottom-left)
+      Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 7 || // Check for diagonal adjacency (top-left/bottom-right)
+      Math.abs(squareBeingDraggedInitialPosition - squareBeingDraggedOverPosition) === 9 // Check for diagonal adjacency (top-right/bottom-left)
     ) {
 
-    if (!playedSoundForElement.has(squareBeingDraggedOverPosition) && !soundCooldown && !playing) {
+    if (!playedSoundForElement.has(squareBeingDraggedOverPosition) 
+      && !soundCooldown && !playing) {
+        
+        if (candyId !== initialSquare) {
       playHover(); // Play the sound immediately
+
       playedSoundForElement.add(squareBeingDraggedOverPosition);
       setSoundCooldown(true); // Start the cooldown
-
+        }
       setTimeout(() => {
         setSoundCooldown(false); // End the cooldown after the delay
       }, 200); // Adjust the delay as needed
@@ -103,12 +104,10 @@ export function useMouseHandlers(
       if (squareBeingDraggedOverPosition !== squareBeingDraggedInitialPosition) {
         target.style.boxShadow = isBeingDragged ? "0 0 10px #ffffe0, 0 0 20px #ffffe0, 0 0 30px #ffffe0, 0 0 40px #ffffe0" : ''; // Apply glow effect
       } else if(squareBeingDraggedOverPosition === squareBeingDraggedInitialPosition) {
-        
-        target.style.boxShadow = "";
+      target.style.boxShadow = "";
       }
-      else {
-        
-        target.style.boxShadow = "";
+      else {  
+      target.style.boxShadow = "";
       }
     }
 
