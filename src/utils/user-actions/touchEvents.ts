@@ -15,8 +15,8 @@ interface SquareState {
         setSquareState: React.Dispatch<React.SetStateAction<SquareState>>,
         isBeingDragged: boolean,
         initialSquare: number,
-        glowingElements: HTMLImageElement[],
         draggedOverSquare: any,
+        glowingElements: HTMLImageElement[],
         playedSoundForElement: any,
     ) {
 
